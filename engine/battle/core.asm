@@ -4636,9 +4636,9 @@ CriticalHitTest:
 	ld a, [de]
 	bit GETTING_PUMPED, a        ; test for focus energy
 	jr z, .noFocusEnergyUsed     ; if no focus energy, jump to subroutine
-	add b                        ; focus energy used; double critical rate
+	sla b                        ; focus energy used; double critical rate
 	jr c, .capFocus							 ; if b overflowed, jump to cap subroutine
-	add b												 ; didn't overflow, double critical rate again (4*)
+	sla b												 ; didn't overflow, double critical rate again (4*)
 .capFocus
 	ld b, $ff                    ; cap at 255/256
 .noFocusEnergyUsed
@@ -4652,9 +4652,9 @@ CriticalHitTest:
 	srl b                        ; /2 for regular move (effective (base speed / 2))
 	jr .SkipHighCritical         ; continue as a normal move
 .HighCritical
-	add b                        ; *2 for high critical hit moves
+	sla b                        ; *2 for high critical hit moves
 	jr c, .capCritical
-	add b 											 ; *2 for high critical hit moves
+	sla b 											 ; *2 for high critical hit moves
 	jr nc, .SkipHighCritical
 .capCritical
 	ld b, $ff                    ; cap at 255/256
