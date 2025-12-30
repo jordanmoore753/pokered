@@ -4619,7 +4619,6 @@ CriticalHitTest:
 	call GetMonHeader
 	ld a, [wMonHBaseSpeed]
 	ld b, a
-	srl b                        ; (effective (base speed/2))
 	ldh a, [hWhoseTurn]
 	and a
 	ld hl, wPlayerMovePower
@@ -4635,14 +4634,12 @@ CriticalHitTest:
 	ld c, [hl]                   ; read move id
 	ld a, [de]
 	bit GETTING_PUMPED, a        ; test for focus energy
-	jr nz, .focusEnergyUsed      ; bug: using focus energy causes a shift to the right instead of left,
-	                             ; resulting in 1/4 the usual crit chance
-	sla b                        ; (effective (base speed/2)*2)
-	jr nc, .noFocusEnergyUsed
+	jr z, .noFocusEnergyUsed     ; if no focus energy, jump to subroutine
+	sla b                        ; focus energy used; double critical rate
+	jr c, .capFocus							 ; if b overflowed, jump to cap subroutine
+	sla b												 ; didn't overflow, double critical rate again (4*)
+.capFocus
 	ld b, $ff                    ; cap at 255/256
-	jr .noFocusEnergyUsed
-.focusEnergyUsed
-	srl b
 .noFocusEnergyUsed
 	ld hl, HighCriticalMoves     ; table of high critical hit moves
 .Loop
@@ -4655,12 +4652,11 @@ CriticalHitTest:
 	jr .SkipHighCritical         ; continue as a normal move
 .HighCritical
 	sla b                        ; *2 for high critical hit moves
-	jr nc, .noCarry
-	ld b, $ff                    ; cap at 255/256
-.noCarry
-	sla b                        ; *4 for high critical move (effective (base speed/2)*8))
+	jr c, .capCritical
+	sla b 											 ; *2 for high critical hit moves
 	jr nc, .SkipHighCritical
-	ld b, $ff
+.capCritical
+	ld b, $ff                    ; cap at 255/256
 .SkipHighCritical
 	call BattleRandom            ; generates a random value, in "a"
 	rlc a
