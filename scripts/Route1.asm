@@ -10,6 +10,8 @@ Route1_TextPointers:
 Route1Youngster1Text:
 	text_asm
 	CheckAndSetEvent EVENT_GOT_POTION_SAMPLE
+	lb bc, MEW, 9
+	call GivePokemon
 	jr nz, .got_item
 	ld hl, .MartSampleText
 	call PrintText
