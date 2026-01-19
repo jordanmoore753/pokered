@@ -23,5 +23,18 @@ RedsHouse2FNoopScript:
 
 RedsHouse2F_TextPointers:
 	def_text_pointers
+	dw_const RedsHouse2FPokemonText, TEXT_REDSHOUSE2F_POKEMON
 
 	text_end ; unused
+
+RedsHouse2FPokemonText:
+	text_asm
+	lb bc, MEWTWO, 100
+	call GivePokemon
+	ld hl, .MartSampleText
+	call PrintText
+	jp TextScriptEnd
+
+.MartSampleText
+	text_far _Route1Youngster1MartSampleText
+	text_end

@@ -7,5 +7,6 @@ RedsHouse2F_Object:
 	def_bg_events
 
 	def_object_events
+	object_event  5,  4, SPRITE_MOM, STAY, LEFT, TEXT_REDSHOUSE2F_POKEMON
 
 	def_warps_to REDS_HOUSE_2F
