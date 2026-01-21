@@ -24,6 +24,7 @@ RedsHouse2FNoopScript:
 RedsHouse2F_TextPointers:
 	def_text_pointers
 	dw_const RedsHouse2FPokemonText, TEXT_REDSHOUSE2F_POKEMON
+	dw_const RedsHouse2FBattleText, TEXT_REDSHOUSE2F_YOUNGSTER2
 
 	text_end ; unused
 
@@ -38,3 +39,9 @@ RedsHouse2FPokemonText:
 .MartSampleText
 	text_far _Route1Youngster1MartSampleText
 	text_end
+
+RedsHouse2FBattleText:
+	text_asm
+	ld hl, ViridianForestTrainerHeader0
+	call TalkToTrainer
+	jp TextScriptEnd
