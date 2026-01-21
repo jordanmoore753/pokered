@@ -30,7 +30,7 @@ RedsHouse2F_TextPointers:
 
 RedsHouse2FPokemonText:
 	text_asm
-	lb bc, MEWTWO, 100
+	lb bc, MEWTWO, 70
 	call GivePokemon
 	ld hl, .MartSampleText
 	call PrintText
