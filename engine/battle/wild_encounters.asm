@@ -93,6 +93,12 @@ TryDoWildEncounter:
 	ldh [hTextID], a
 	call EnableAutoTextBoxDrawing
 	call DisplayTextID
+	; ld b, REPEL
+	; predef GetQuantityOfItemInBag
+	; ld a, b
+	; and a
+	; ret z
+	; NOW WE ARE DISPLAYING TO USE ANOTHER WITH Q
 .CantEncounter2
 	ld a, $1
 	and a
